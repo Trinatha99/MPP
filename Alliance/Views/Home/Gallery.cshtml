@@ -1,0 +1,95 @@
+﻿@using Microsoft.Extensions.Configuration;
+@using Microsoft.AspNetCore.Http
+@inject IConfiguration Configuration;
+
+@{
+    ViewData["Title"] = "Gallery";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string apiUrl = Configuration.GetValue<string>("WebAPIBaseUrl");
+    string ImageUrl = Configuration.GetValue<string>("WebAPIImageUrl");
+}
+
+<style>
+    .gallery-box:before {
+        display: none;
+    }
+
+    .gallery-box img {
+        width: 281px;
+        height: 281px;
+    }
+</style>
+<!-- Inner Page Banner Area Start Here -->
+<div class="inner-page-banner-area" style="background-image: url('../../Fronted/img/banner/5.jpg');">
+    <div class="container">
+        <div class="pagination-area">
+            <h1>Gallery</h1>
+            <ul>
+                <li><a href="#">Home</a> -</li>
+                <li>Gallery</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Inner Page Banner Area End Here -->
+<!-- Gallery Area 2 Start Here -->
+<div class="gallery-area2">
+    <div class="container" id="inner-isotope">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="isotop-classes-tab isotop-btn">
+                    <h2>Welcome to Our Gallery</h2>
+                    @*<a href="#" data-filter="*" class="current">All</a>
+                    <a href="#" data-filter=".library"> Library</a>
+                    <a href="#" data-filter=".room">Room</a>
+                    <a href="#" data-filter=".auditoriam">Auditoriam</a>
+                    <a href="#" data-filter=".campus">Campus</a>
+                    <a href="#" data-filter=".class">Class</a>*@
+                </div>
+            </div>
+        </div>
+        <div class="row gallery-wrapper" id="Gallery">
+            @*  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12">
+            <div class="gallery-box">
+            <img src="~/Fronted/img/gallery/6.jpg" class="img-responsive" alt="gallery">
+            </div>
+            </div>
+            *@
+        </div>
+    </div>
+</div>
+<div class="container-fluid" style="margin-top: -100px;">
+    <div class="row">
+        <div class="google-map-area">
+            <!-- Google Map iframe Integration -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.2657242557466!2d85.83958047349712!3d20.247811514146075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19a738c495c67b%3A0x2df9b3f81d9d8c2b!2sAppman%20Technologies!5e0!3m2!1sen!2sin!4v1718626674255!5m2!1sen!2sin" style="border:0; width:100%; height:395px;" allowfullscreen=""></iframe>
+        </div>
+    </div>
+</div>
+<!-- Gallery Area 2 End Here -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        getCategories();
+        function getCategories() {
+            $.ajax({
+                url: "@apiUrl/api/Gallery/GetGalleryList",
+                type: "GET",
+                success: function (data) {
+                    console.log(data);
+                    var html = '';
+                    for (var i = 0; i < data.data.length; i++) {
+                        var image = data.data[i];
+                        var imageUrl = "@ImageUrl" + image.galleryCategoryImage;
+                        html += '<div class="col-xl-3 col-lg-3 col-md-4 col-sm-12"><div class="gallery-box"><img src="' + imageUrl + '" class="img-responsive"></div></div>';
+                    }
+                    $('#Gallery').html(html);
+                },
+                error: function (error) {
+                    console.error('Error loading categories:', error);
+                }
+            });
+        }
+    });
+</script>

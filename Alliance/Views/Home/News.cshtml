@@ -1,0 +1,116 @@
+﻿@using Microsoft.Extensions.Configuration;
+@using Microsoft.AspNetCore.Http
+@inject IConfiguration Configuration;
+
+@{
+	ViewData["Title"] = "News";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	string apiUrl = Configuration.GetValue<string>("WebAPIBaseUrl");
+	string ImageUrl = Configuration.GetValue<string>("WebAPIImageUrl");
+}
+<style>
+	.title-bar-high:before, .default-big-btn {
+		background: #198754;
+	}
+	/*
+			.faq-items .faq-item .faq-title button .faq-count {
+			background: #198754;
+		} */
+	.faq-items .faq-item .faq-title button:after {
+		display: none;
+	}
+
+	.faq-items .faq-item .faq-title button:not(.collapsed) .faq-count {
+		background-color: #198754;
+	}
+</style>
+
+<div class="inner-page-banner-area" style="background-image: url('../../Fronted/img/banner/5.jpg');">
+	<div class="container">
+		<div class="pagination-area">
+			<h1>News</h1>
+			<ul>
+				<li><a href="#">Home</a> -</li>
+				<li>News</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="faq-page-area">
+	<div class="container">
+		<div class="faq-items" id="accordionFaq">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+				<h2 class="title-default-left title-bar-high">Notification</h2>
+			</div>
+			@*<div class="row">
+				<div class="col-lg-12" id="notices">
+					<div class="faq-item">
+						<div class="faq-title" id="headingOne">
+							<button class="accordion-button" type="button">
+								<span class="faq-count">1</span>Plummy text printing
+							</button>
+						</div>
+					</div>
+					<div class="faq-item"><div class="faq-title" id="headingOne"><button class="accordion-button" type="button"><span class="faq-count">1</span></button></div></div>
+				</div>
+			</div>*@
+			<div class="row">
+				<div class="col-lg-12" id="notices">
+					<div class="faq-item">
+						<div class="faq-title" id="headingOne">
+							<button class="accordion-button" type="button">
+								<div class="button-content">
+									<span class="faq-count">1</span> <span class="date-display">April 29, 2024</span>
+									<div class="button-text">Plummy text printing</div>
+								</div>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container-fluid" style="margin-top: -100px;">
+	<div class="row">
+		<div class="google-map-area">
+			<!-- Google Map iframe Integration -->
+			<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.2657242557466!2d85.83958047349712!3d20.247811514146075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19a738c495c67b%3A0x2df9b3f81d9d8c2b!2sAppman%20Technologies!5e0!3m2!1sen!2sin!4v1718626674255!5m2!1sen!2sin" style="border:0; width:100%; height:395px;" allowfullscreen=""></iframe>
+		</div>
+	</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+	$(document).ready(function () {
+		getnotice();
+
+		function getnotice() {
+			$.ajax({
+				url: "@apiUrl/api/Notification/GetNotificationsList",
+				type: "GET",
+				success: function (data) {
+					console.log(data);
+					var html = '';
+					for (var i = 0; i < data.data.length; i++) {
+						var count = i + 1;
+						var noti = data.data[i];
+						var imageUrl = "@ImageUrl" + noti.image;
+						html += '<div class="faq-item" data-image="' + imageUrl + '"><div class="faq-title" id="headingOne"><button class="accordion-button" type="button"><span class="faq-count">' + count + '</span>' + noti.notificationName + '</button></div></div>';
+					}
+					$('#notices').html(html);
+				},
+				error: function (error) {
+					console.error('Error loading categories:', error);
+				}
+			});
+		}
+		$(document).on('click', '.faq-item', function () {
+			var imageUrl = $(this).data('image');
+			window.open(imageUrl);
+
+		});
+	});
+</script>

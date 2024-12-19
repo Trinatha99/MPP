@@ -1,0 +1,180 @@
+﻿@using Microsoft.Extensions.Configuration;
+@using Microsoft.AspNetCore.Http
+@inject IConfiguration Configuration;
+
+@{
+    ViewBag.Title = "Gallery Create";
+    string apiUrl = Configuration.GetValue<string>("WebAPIBaseUrl");
+}
+
+<div class="page-header">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#"><i class="fe fe-pie-chart mr-1"></i> Gallery Master</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Gallery</li>
+    </ol>
+    <div class="ml-auto">
+        <a href="~/Gallery/GalleryList" class="btn btn-primary btn-icon btn-sm text-white mr-2">
+            <span>
+                <i class="fe fe-plus"></i>
+            </span> View
+        </a>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md">
+        <div class="card overflow-hidden">
+            <div class="card-header">
+                <h3 class="card-title">Gallery  Create</h3>
+            </div>
+            <div class="card-body">
+                <form action="#" role="form" class="validate" id="formPost">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label">Gallery Name</label>
+                                <input type="text" class="form-control" autocomplete="off" id="galleryname" name="galleryname" placeholder="Gallery Name" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label">Gallery Image <span style="color: red;"><b>*</b></span></label>
+                                <input type="file" class="form-control" id="galleryimage" required />
+                            </div>
+                        </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <button type="button" id="save" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+@section scripts{
+    <script>
+        //Create
+        $(function () {
+
+            $("#save").click(function (e) {
+                if (!document.getElementById("formPost").checkValidity()) {
+                    e.preventDefault();
+                }
+                else {
+                    imgPath = '';
+                    var totalFiles = document.getElementById('galleryimage').files.length;
+                    if (totalFiles > 0) {
+                        uploadFile();
+                    }
+                    var preloader = $("#preloader");
+                    preloader.removeClass("d-none");
+                    var model = {
+                        galleryName: $.trim($("#galleryname").val()),
+                        galleryCategoryImage: imgPath,
+
+                        createdBy: @Context.Session.GetInt32("UserId"),
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "@apiUrl/api/Gallery/CreateGallery",
+                        data: JSON.stringify(model),
+                        contentType: "application/json; charset=utf-8",
+                        headers: {
+                            "authorization": "Bearer @Context.Session.GetString("TokenTxt")"
+                        },
+                        dataType: "json",
+                        success: function (data, statusText, xhr) {
+                            console.log(data)
+                            if (xhr.status === 200) {
+
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Gallery",
+                                    text: "Successfully created!",
+                                }).then(function () {
+                                    location.reload(); 
+                                });
+                            } else if (data.status === "Duplicate") {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Validation Alert!",
+                                    text: data.responseMsg,
+                                }).then(function () {
+                                    location.reload(); 
+                                });
+                            } else if (data.status === "error") {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Validation Alert!",
+                                    text: data.responseMsg,
+                                }).then(function () {
+                                    location.reload(); 
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Validation Alert!",
+                                    text: "Something unexpected!",
+                                }).then(function () {
+                                    location.reload(); 
+                                });
+                            }
+                            preloader.addClass("d-none");
+                        },
+                        error: function (data) {
+                            if (data.status == 401) {
+                                window.location.replace('/Message/TokenExpire');
+                            } else if (data.status == 403) {
+                                window.location.replace('/Message/Unauthorize');
+                            } else if (data.status == 400) {
+                                sweetAlert("Validation Alert!", "Please check input data!", "warning");
+                            }
+                            preloader.addClass("d-none");
+                        }
+                    });
+                }
+            });
+
+            function uploadFile() {
+                var totalFiles = document.getElementById('galleryimage').files.length;
+                if (totalFiles > 0) {
+                    var formData = new FormData();
+                    var files = document.getElementById('galleryimage').files;
+                    formData.append("file", files[0]);
+                    $.ajax(
+                        {
+                            url: "/Upload/ImgUpload",
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            async: false,
+                            type: "POST",
+                            success: function (data) {
+                                imgPath = data;
+
+                            },
+                            error: function (data) {
+                                window.location.replace('/Message/SessionExpire');
+                            }
+                        }
+                    );
+                }
+
+            }
+
+        });
+
+        
+
+    </script>
+
+}

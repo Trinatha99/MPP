@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewData["Title"] = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .contact-us-info2 ul li i{
+        color: #198754;
+    }
+
+    .title-bar-high:before,.default-big-btn {
+        background: #198754;
+    }
+</style>
+<!-- Inner Page Banner Area Start Here -->
+<div class="inner-page-banner-area" style="background-image: url('../../Fronted/img/banner/5.jpg');">
+    <div class="container">
+        <div class="pagination-area">
+            <h1>Contact Us</h1>
+            <ul>
+                <li><a href="#">Home</a> -</li>
+                <li>Contact</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Inner Page Banner Area End Here -->
+<!-- Contact Us Page 2 Area Start Here -->
+<div class="contact-us-page2-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <h2 class="title-default-left title-bar-high">Information</h2>
+                <div class="contact-us-info2">
+                    <ul>
+                        <li><i class="fa fa-map-marker" aria-hidden="true"></i>Plot No:-J14, BJB Nager,Bhubaneswar , Odisha-751014</li>
+                        <li><i class="fa fa-phone" aria-hidden="true"></i>9583777737</li>
+                        <li><i class="fa fa-envelope-o" aria-hidden="true"></i>info@appman.tech</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <h2 class="title-default-left title-bar-high">Contact With Us</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="contact-form2">
+                       
+
+                        <form action="~/Email/SendApplication1" method="POST" id="contact-form">
+                            <fieldset>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="name" placeholder="Name*" class="form-control" id="name" data-error="Name field is required" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="email" name="email" placeholder="Email*" class="form-control" id="email" data-error="Email field is required" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea placeholder="Message*" class="textarea form-control" name="message1" id="message1" rows="8" cols="20" data-error="Message field is required" required></textarea>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-6 col-md-12">
+                                    <div class="form-group margin-bottom-none">
+                                        <button type="submit" id="submit" name="submit" class="default-big-btn">Send Message</button>
+                                    </div>
+                                </div>
+                                <div class="col-xl-8 col-lg-8 col-md-6 col-md-12 alert-notification">
+                                    <div id="message" class="alert-msg"></div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  <div class="container-fluid">
+    <div class="row">
+        <div class="google-map-area">
+            <!-- Google Map iframe Integration -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.2657242557466!2d85.83958047349712!3d20.247811514146075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19a738c495c67b%3A0x2df9b3f81d9d8c2b!2sAppman%20Technologies!5e0!3m2!1sen!2sin!4v1718626674255!5m2!1sen!2sin" style="border:0; width:100%; height:395px;" allowfullscreen=""></iframe>
+        </div>
+    </div>
+</div>
+</div>
+<div id="loader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); color: white; text-align: center; padding-top: 50vh; z-index: 9999;">Loading...</div>
+<!-- Contact Us Page 2 Area End Here -->
+<!-- Include jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#contact-form').on('submit', function (event) {
+            event.preventDefault(); // Prevent the form from submitting via the browser.
+            $('#loader').show();
+            var form = $(this);
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function (response) {
+                    $('#loader').hide();
+                    alert('Message sent successfully!');
+                    form[0].reset();  // Reset the form fields after successful submission
+                    $('#message').html('<div class="alert alert-success">Submitted successfully</div>');
+                },
+                error: function (xhr, status, error) {
+                    $('#loader').hide();
+                    $('#message').html('<div class="alert alert-danger">Error submitting message: ' + error + '</div>');
+                }
+            });
+        });
+    });
+</script>
+
+@* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#contact-form').on('submit', function (event) {
+            event.preventDefault(); // Prevents the default form submission action
+            var formData = $(this).serialize(); // Serializes the form data
+
+            $.ajax({
+                type: $(this).attr('method'), // 'POST'
+                url: $(this).attr('action'), // '~/Email/SendApplication1Async'
+                data: formData,
+                success: function (response) {
+                    $('#message').html("<div class='success'>Application submitted successfully.</div>");
+                },
+                error: function (xhr, status, error) {
+                    $('#message').html("<div class='error'>Failed to send application: " + error + "</div>");
+                }
+            });
+        });
+    });
+</script> *@
+

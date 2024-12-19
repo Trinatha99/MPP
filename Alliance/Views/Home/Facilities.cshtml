@@ -1,0 +1,170 @@
+﻿@using Microsoft.Extensions.Configuration;
+@using Microsoft.AspNetCore.Http
+@inject IConfiguration Configuration;
+@{
+    ViewData["Title"] = "Facilities";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string apiUrl = Configuration.GetValue<string>("WebAPIBaseUrl");
+    string ImageUrl = Configuration.GetValue<string>("WebAPIImageUrl");
+    string VideoUrl = Configuration.GetValue<string>("WebAPIVideoUrl");
+}
+
+
+
+<style>
+    .title-bar-high:before, .default-big-btn {
+        background: #198754;
+    }
+
+    .faq-items .faq-item .faq-title button .faq-count {
+        background: #198754;
+    }
+</style>
+
+<div class="inner-page-banner-area" style="background-image: url('../../Fronted/img/banner/5.jpg');">
+    <div class="container">
+        <div class="pagination-area">
+            <h1>Facilities</h1>
+            <ul>
+                <li><a href="#">Home</a> -</li>
+                <li>Facilities</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="faq-page-area">
+    <div class="container">
+        <div class="faq-items" id="accordionFaq">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <h2 class="title-default-left title-bar-high">Our Facilities</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" id="facilityyy">
+
+                    @*  <div class="faq-item">
+                    <div class="faq-title" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <span class="faq-count">1</span>Plummy text  printing and typesetting iyourndustry.</button>
+                    </div>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionFaq">
+                    <div class="faq-body d-flex">
+                    <div class="text-content" style="flex:1;">
+                    Dorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuriesthe leap
+                    into electronic.
+                    </div>
+                    <img src="~/Fronted/img/about/1.jpg" alt="Descriptive Text for Image" style="width:200px; height:150px;">
+
+                    </div>
+                    </div>
+                    </div>
+                    <div class="faq-item">
+                    <div class="faq-title" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <span class="faq-count">1</span> Question about printing and typesetting industry?
+                    </button>
+                    </div>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionFaq">
+                    <div class="faq-body d-flex">
+                    <div class="text-content" style="flex:1;">
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...
+                    </div>
+                    <img src="~/Fronted/img/about/1.jpg" alt="Descriptive Text for Image" style="width:200px; height:150px;">
+                    </div>
+                    </div>
+                    </div> *@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" style="margin-top: -100px;">
+    <div class="row">
+        <div class="google-map-area">
+            <!-- Google Map iframe Integration -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.2657242557466!2d85.83958047349712!3d20.247811514146075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19a738c495c67b%3A0x2df9b3f81d9d8c2b!2sAppman%20Technologies!5e0!3m2!1sen!2sin!4v1718626674255!5m2!1sen!2sin" style="border:0; width:100%; height:395px;" allowfullscreen=""></iframe>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+@* <script>
+    $(document).ready(function () {
+        getfac();
+        function getfac() {
+            $.ajax({
+                url: "@apiUrl/api/Facilities/GetFacilitiesList",
+                type: "GET",
+                success: function (data) {
+                    console.log(data);
+                    var html = '';
+                    for (var i = 0; i < data.data.length; i++) {
+                        var image = data.data[i];
+                        var imageUrl = "@ImageUrl" + image.facilitiesImage;
+                        html += '<div class="faq-item"><div class="faq-title" id="headingOne"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><span class="faq-count">1</span>' + image.facilitiesName + '</button></div><div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionFaq"><div class="faq-body d-flex"><div class="text-content" style="flex:1;">' + image.facilitiesDetails + '</div><img src="' + imageUrl + '" style="width:200px; height:150px;"></div></div></div>';
+                    }
+                    $('#facilityyy').html(html);
+                },
+                error: function (error) {
+                    console.error('Error loading categories:', error);
+                }
+            });
+        }
+    });
+</script> *@
+
+<script>
+    $(document).ready(function () {
+        getfac();
+
+        function getfac() {
+            $.ajax({
+                url: "@apiUrl/api/Facilities/GetFacilitiesList",
+                type: "GET",
+                success: function (data) {
+                    console.log(data);
+                    var html = '';
+                    for (var i = 0; i < data.data.length; i++) {
+                        var facility = data.data[i];
+                        var imageUrl = "@ImageUrl" + facility.facilitiesImage;
+                        var videoUrl = facility.facilitiesVideo ? "@VideoUrl" + facility.facilitiesVideo : '';
+
+                        var count = i + 1; // Increment count starting from 1
+                        var collapsedClass = i === 0 ? '' : 'collapse'; // Only first item is not collapsed
+                        var showClass = i === 0 ? 'show' : ''; // Show the first item
+
+                        html += '<div class="faq-item">' +
+                            '<div class="faq-title" id="heading' + count + '">' +
+                            '<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' + count + '" aria-expanded="true" aria-controls="collapse' + count + '">' +
+                            '<span class="faq-count">' + count + '</span>' + facility.facilitiesName +
+                            '</button></div>' +
+                            '<div id="collapse' + count + '" class="accordion-collapse ' + collapsedClass + ' ' + showClass + '" aria-labelledby="heading' + count + '" data-bs-parent="#accordionFaq">' +
+                            '<div class="faq-body d-flex">' +
+                            '<div class="text-content" style="flex:1;">' + facility.facilitiesDetails + '</div>' +
+                            '<div class="media-content" style="flex:1;">' +
+                            '<img src="' + imageUrl + '" style="width:200px; height:150px;">';
+
+                        if (videoUrl) {
+                            html += '<video controls style="width:200px; height:150px;">' +
+                                '<source src="' + videoUrl + '" type="video/mp4">' +
+                                'Your browser does not support the video tag.' +
+                                '</video>';
+                        }
+
+                        html += '</div></div></div></div>';
+                    }
+                    $('#facilityyy').html(html);
+                },
+                error: function (error) {
+                    console.error('Error loading categories:', error);
+                }
+            });
+        }
+    });
+</script>
+
+
+
+
+
+
+

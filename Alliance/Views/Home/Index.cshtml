@@ -1,0 +1,744 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+        @* <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Include jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <!-- Include Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> *@
+        <style>
+            body{
+                overflow-x:hidden;
+            }
+    .search-input .form-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .search-input input[type="text"],
+    .search-input input[type="tel"],
+    .search-input input[type="email"] {
+        width: 100%;
+        padding: 12px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .search-input label {
+        position: absolute;
+        left: 10px;
+        top: 0;
+        padding: 12px 5px;
+        margin: 1px;
+        transition: 0.3s;
+        color: #aaa;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .search-input input:focus + label,
+    .search-input input:valid + label {
+        top: -34px;
+        left: 7px;
+        font-size: 15px;
+        color: white;
+    }
+
+    .join-now-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #198754;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .register-header {
+        text-align: center;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    .ghost-btn-big {
+        border: 2px solid #198754;
+    }
+
+        .ghost-btn-big:hover {
+            background-color: #198754;
+            color: white;
+        }
+</style>
+<style>
+    .students-say-area .owl-controls .owl-dots .active span {
+        background: #198754;
+    }
+
+    @@media (max-width: 600px) {
+        .container {
+            padding: 10px;
+        }
+    }
+</style>
+<style>
+    .news-inner-area .news-wrapper li .news-content-holder h3 a {
+        color: #002147;
+        font-weight: 600;
+    }
+
+    .news-content-holder p {
+        line-height: 1.4;
+        text-align: justify;
+    }
+
+    .news-inner-area .news-wrapper li .news-content-holder h3 a:hover {
+        color: #198754;
+    }
+
+    .view-all-accent-btn:hover {
+        background-color: #198754;
+        color: white;
+    }
+
+    .news-img-holder a img {
+        width: 150px;
+        height: 101px;
+    }
+
+</style>
+<style>
+            .news-scroll-wrapper {
+                height: 400px;
+                overflow-y: auto;
+                width: 400px;
+                margin-left: 140px;
+            }
+            .title-default-left {
+               
+                margin-left: 281px;
+            }
+
+            .news-content-holder{
+                margin-left: 28px;
+            }
+
+    .news-event-area {
+        padding: 47px 0 100px!important;
+        background: #f5f5f5;
+    }
+
+    .certificate-area {
+        background-color:transparent;
+        padding: 100px 0;
+    }
+</style>
+
+<!-- Slider 1 Area Start Here -->
+<div class="slider1-area overlay-default index1">
+    <div class="bend niceties preview-1">
+        <div id="ensign-nivoslider-3" class="slides">
+            <img src="~/Fronted/img/slider/company.png" alt="slider" title="#slider-direction-1" />
+            <img src="~/Fronted/img/slider/institute.jpg" alt="slider" title="#slider-direction-2" />
+            <img src="~/Fronted/img/slider/iii.jpg" alt="slider" title="#slider-direction-3" />
+        </div>
+        <div id="slider-direction-1" class="t-cn slider-direction">
+            <div class="slider-content s-tb slide-1">
+                <div class="title-container s-tb-c">
+                    <div class="title1">Welcome to Alliance Institute</div>
+                    <p>
+                        WE HAVE CREATED THE MOST EFFICIENT TEACHING METHODOLOGIES AND REVOLUTIONIZING EDUCATION.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+        <div id="slider-direction-2" class="t-cn slider-direction">
+            <div class="slider-content s-tb slide-2">
+                <div class="title-container s-tb-c">
+                    <div class="title1">Welcome to Alliance Institute</div>
+                    <p>WE ARE PIONEERING ADVANCED LEARNING TECHNIQUES AND TRANSFORMING ACADEMIC ACHIEVEMENT.</p>
+                    <div class="slider-btn-area">
+                        <a href="/Home/Courses" class="default-big-btn">Start a Course</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="slider-direction-3" class="t-cn slider-direction">
+            <div class="slider-content s-tb slide-3">
+                <div class="title-container s-tb-c">
+                    <div class="title1">Welcome to Alliance Institute</div>
+                    <p>WE HAVE DEVELOPED CUTTING-EDGE INSTRUCTIONAL STRATEGIES THAT ARE REDEFINING EDUCATIONAL STANDARDS.</p>
+                    <div class="slider-btn-area">
+                        <a href="/Home/Courses" class="default-big-btn">Start a Course</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div class="news-event-area">
+           
+                <div class="row">
+                    <div class="col-xl-7 col-lg-6 col-md-6 col-sm-12 event-inner-area">
+                        <div class="certificate-area">
+                            <div class="container">
+                                <div class="rc-carousel" data-loop="true" data-items="4" data-margin="30" data-autoplay="true" data-autoplay-timeout="10000" data-smart-speed="2000" data-dots="false" data-nav="false" data-nav-speed="false" data-r-x-small="1" data-r-x-small-nav="false" data-r-x-small-dots="false" data-r-x-medium="2" data-r-x-medium-nav="false" data-r-x-medium-dots="false" data-r-small="3" data-r-small-nav="false" data-r-small-dots="false" data-r-medium="4" data-r-medium-nav="false" data-r-medium-dots="false" data-r-large="4" data-r-large-nav="false" data-r-large-dots="false">
+                                    <div class="single-item">
+                                        <div class="single-item-wrapper">
+                                            <img src="~/Fronted/img/certificate/1.jpg" class="img-responsive" alt="certificate">
+                                        </div>
+                                    </div>
+                                    <div class="single-item">
+                                        <div class="single-item-wrapper">
+                                            <img src="~/Fronted/img/certificate/2.jpg" class="img-responsive" alt="certificate">
+                                        </div>
+                                    </div>
+                                    <div class="single-item">
+                                        <div class="single-item-wrapper">
+                                            <img src="~/Fronted/img/certificate/3.jpg" class="img-responsive" alt="certificate">
+                                        </div>
+                                    </div>
+                                    <div class="single-item">
+                                        <div class="single-item-wrapper">
+                                            <img src="~/Fronted/img/certificate/4.jpg" class="img-responsive" alt="certificate">
+                                        </div>
+                                    </div>
+                                    <div class="single-item">
+                                        <div class="single-item-wrapper">
+                                            <img src="~/Fronted/img/certificate/1.jpg" class="img-responsive" alt="certificate">
+                                        </div>
+                                    </div>
+                                    <div class="single-item">
+                                        <div class="single-item-wrapper">
+                                            <img src="~/Fronted/img/certificate/2.jpg" class="img-responsive" alt="certificate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-xl-5 col-lg-6 col-md-6 col-sm-12 news-inner-area">
+                        <h2 class="title-default-left">Notice Board</h2>
+                        <div class="news-scroll-wrapper">
+                            <ul class="news-wrapper">
+                                <li>
+                                    <div class="news-img-holder">
+                                        <a href="#"><img src="~/Fronted/img/news/1.jpg" class="img-responsive" alt="news"></a>
+                                    </div>
+                                    <div class="news-content-holder">
+                                        <h3><a href="single-news.html">Summer Course Start From 1st June</a></h3>
+                                        <div class="post-date">June 15, 2017</div>
+                                        <p>Pellentesque turpis dignissim amet area ducation process facilitating Knowledge.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="news-img-holder">
+                                        <a href="#"><img src="~/Fronted/img/news/1.jpg" class="img-responsive" alt="news"></a>
+                                    </div>
+                                    <div class="news-content-holder">
+                                        <h3><a href="single-news.html">Summer Course Start From 1st June</a></h3>
+                                        <div class="post-date">June 15, 2017</div>
+                                        <p>Pellentesque turpis dignissim amet area ducation process facilitating Knowledge.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="news-img-holder">
+                                        <a href="#"><img src="~/Fronted/img/news/1.jpg" class="img-responsive" alt="news"></a>
+                                    </div>
+                                    <div class="news-content-holder">
+                                        <h3><a href="single-news.html">Summer Course Start From 1st June</a></h3>
+                                        <div class="post-date">June 15, 2017</div>
+                                        <p>Pellentesque turpis dignissim amet area ducation process facilitating Knowledge.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="news-img-holder">
+                                        <a href="#"><img src="~/Fronted/img/news/1.jpg" class="img-responsive" alt="news"></a>
+                                    </div>
+                                    <div class="news-content-holder">
+                                        <h3><a href="single-news.html">Summer Course Start From 1st June</a></h3>
+                                        <div class="post-date">June 15, 2017</div>
+                                        <p>Pellentesque turpis dignissim amet area ducation process facilitating Knowledge.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="news-img-holder">
+                                        <a href="#"><img src="~/Fronted/img/news/1.jpg" class="img-responsive" alt="news"></a>
+                                    </div>
+                                    <div class="news-content-holder">
+                                        <h3><a href="single-news.html">Summer Course Start From 1st June</a></h3>
+                                        <div class="post-date">June 15, 2017</div>
+                                        <p>Pellentesque turpis dignissim amet area ducation process facilitating Knowledge.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="news-img-holder">
+                                        <a href="#"><img src="~/Fronted/img/news/1.jpg" class="img-responsive" alt="news"></a>
+                                    </div>
+                                    <div class="news-content-holder">
+                                        <h3><a href="single-news.html">Summer Course Start From 1st June</a></h3>
+                                        <div class="post-date">June 15, 2017</div>
+                                        <p>Pellentesque turpis dignissim amet area ducation process facilitating Knowledge.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="news-img-holder">
+                                        <a href="#"><img src="~/Fronted/img/news/2.jpg" class="img-responsive" alt="news"></a>
+                                    </div>
+                                    <div class="news-content-holder">
+                                        <h3><a href="single-news.html">Guest Interview will Occur Soon</a></h3>
+                                        <div class="post-date">June 15, 2017</div>
+                                        <p>Pellentesque turpis dignissim amet area ducation process facilitating Knowledge.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="news-img-holder">
+                                        <a href="#"><img src="~/Fronted/img/news/3.jpg" class="img-responsive" alt="news"></a>
+                                    </div>
+                                    <div class="news-content-holder">
+                                        <h3><a href="single-news.html">Easy English Learning Way</a></h3>
+                                        <div class="post-date">June 15, 2017</div>
+                                        <p>Pellentesque turpis dignissim amet area ducation process facilitating Knowledge.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+<!-- Service 1 Area End Here -->
+<div class="container">
+    <div class="row">
+        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 wow fadeIn" data-wow-duration="2s" data-wow-delay=".1s">
+            <div class="service-box3">
+                @*<div class="service-box-icon">
+                <a href="#"><i class="fa fa-video-camera" aria-hidden="true"></i></a>
+                </div>
+                <h3><a href="#">Over 20,640 Free Tutorial</a></h3>
+                <p>Eimply dummy text of the printing inavailable industry.</p>*@
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 wow fadeIn" data-wow-duration="2s" data-wow-delay=".3s">
+            <div class="service-box3">
+                <br />
+                <br />
+                <br />
+                <br />
+                @* <div class="service-box-icon">
+                <a href="#"><i class="fa fa-user" aria-hidden="true"></i></a>
+                </div>
+                <h3><a href="#">Skilled 10,640 Lecturer</a></h3>
+                <p>Eimply dummy text of the printing inavailable industry.</p>*@
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 wow fadeIn" data-wow-duration="2s" data-wow-delay=".5s">
+            <div class="service-box3">
+                @*<div class="service-box-icon">
+                <a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i></a>
+                </div>
+                <h3><a href="#">Over 1000 Scholarship</a></h3>
+                <p>Eimply dummy text of the printing inavailable industry.</p>*@
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 wow fadeIn" data-wow-duration="2s" data-wow-delay=".7s">
+            <div class="service-box3">
+                @*<div class="service-box-icon">
+                <a href="#"><i class="fa fa-book" aria-hidden="true"></i></a>
+                </div>
+                <h3><a href="#">Over 5,640 Book Store</a></h3>
+                <p>Eimply dummy text of the printing inavailable industry.</p>*@
+            </div>
+        </div>
+    </div>
+</div>
+<div class="about2-area">
+    <div class="container">
+        <h2 class="about-title">Welcome to Alliance</h2>
+        <p class="about-sub-title">
+            Welcome to Alliance, where innovative education meets tradition, crafting a future where every student thrives.
+        </p>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <div class="service-box4">
+                    <div class="service-box-icon">
+                        <a href="#!"><i class="fa fa-graduation-cap" aria-hidden="true"></i></a>
+                    </div>
+                    <h3><a href="#!">Research Opportunities</a></h3>
+                    <p>Participate in cutting-edge research projects led by field-leading experts, fostering innovation and critical thinking skills.</p>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <div class="service-box4">
+                    <div class="service-box-icon">
+                        <a href="#!"><i class="fa fa-user" aria-hidden="true"></i></a>
+                    </div>
+                    <h3><a href="#!">Skilled Lecturers</a></h3>
+                    <p>Our skilled lecturers bring a wealth of knowledge and experience, passionately delivering expert instruction and personalized mentorship to nurture your academic and professional growth.</p>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <div class="service-box4">
+                    <div class="service-box-icon">
+                        <a href="#!"><i class="fa fa-book" aria-hidden="true"></i></a>
+                    </div>
+                    <h3><a href="#!">Book Library & Store</a></h3>
+                    <p>Explore our extensive book library and store, featuring a vast collection of resources and materials to support your studies and ignite your intellectual curiosity.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="news-event-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 news-inner-area">
+                <h2 class="title-default-left">Academic</h2>
+                <ul class="news-wrapper">
+                    <li>
+                        <div class="news-img-holder">
+                            <a href="#!"><img src="~/Fronted/img/news/CBSE.png" class="img-responsive" alt="news"></a>
+                        </div>
+                        <div class="news-content-holder">
+                            <h3><a href="#!">CBSE</a></h3>
+                            @* <div class="post-date">June 15, 2017</div> *@
+                            <p>The Estimates committee in the Parliament recommended the setting up of a Service Selection Commission in its 47th report (1967–68) for conducting examinations to recruit lower categories of posts. Later, in the Department of Personnel and Administrative Reforms, on 4 November 1975 Government of India constituted a commission called Subordinate Service Commission. On 26 September 1977, Subordinate Services Commission was renamed as Staff Selection Commission.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="news-img-holder">
+                            <a href="#!"><img src="~/Fronted/img/news/ICse.jpg" class="img-responsive" alt="news"></a>
+                        </div>
+                        <div class="news-content-holder">
+                            <h3><a href="#!">ICSE</a></h3>
+                            @* <div class="post-date">June 15, 2017</div> *@
+                            <p>The Estimates committee in the Parliament recommended the setting up of a Service Selection Commission in its 47th report (1967–68) for conducting examinations to recruit lower categories of posts. Later, in the Department of Personnel and Administrative Reforms, on 4 November 1975 Government of India constituted a commission called Subordinate Service Commission. On 26 September 1977, Subordinate Services Commission was renamed as Staff Selection Commission.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="news-img-holder">
+                            <a href="#!"><img src="~/Fronted/img/news/3.jpg" class="img-responsive" alt="news"></a>
+                        </div>
+                        <div class="news-content-holder">
+                            <h3><a href="#!">CHSE</a></h3>
+                            @* <div class="post-date">June 15, 2017</div> *@
+                            <p>The Estimates committee in the Parliament recommended the setting up of a Service Selection Commission in its 47th report (1967–68) for conducting examinations to recruit lower categories of posts. Later, in the Department of Personnel and Administrative Reforms, on 4 November 1975 Government of India constituted a commission called Subordinate Service Commission. On 26 September 1977, Subordinate Services Commission was renamed as Staff Selection Commission.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="news-img-holder">
+                            <a href="#!"><img src="~/Fronted/img/news/hsc.jpg" class="img-responsive" alt="news"></a>
+                        </div>
+                        <div class="news-content-holder">
+                            <h3><a href="#!">HSCE</a></h3>
+                            @* <div class="post-date">June 15, 2017</div> *@
+                            <p>The Estimates committee in the Parliament recommended the setting up of a Service Selection Commission in its 47th report (1967–68) for conducting examinations to recruit lower categories of posts. Later, in the Department of Personnel and Administrative Reforms, on 4 November 1975 Government of India constituted a commission called Subordinate Service Commission. On 26 September 1977, Subordinate Services Commission was renamed as Staff Selection Commission.</p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="news-btn-holder">
+                    <a href="/Home/Courses" class="view-all-accent-btn">View All</a>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 news-inner-area">
+                <h2 class="title-default-left">Professional</h2>
+                <ul class="news-wrapper">
+                    <li>
+                        <div class="news-img-holder">
+                            <a href="#!"><img src="~/Fronted/img/news/ssc-exam--seo.png" class="img-responsive" alt="news"></a>
+                        </div>
+                        <div class="news-content-holder">
+                            <h3><a href="#!">SSC</a></h3>
+                            @* <div class="post-date">June 15, 2017</div> *@
+                            <p>The Estimates committee in the Parliament recommended the setting up of a Service Selection Commission in its 47th report (1967–68) for conducting examinations to recruit lower categories of posts. Later, in the Department of Personnel and Administrative Reforms, on 4 November 1975 Government of India constituted a commission called Subordinate Service Commission. On 26 September 1977, Subordinate Services Commission was renamed as Staff Selection Commission.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="news-img-holder">
+                            <a href="#!"><img src="~/Fronted/img/news/Railway-Exams.jpg" class="img-responsive" alt="news"></a>
+                        </div>
+                        <div class="news-content-holder">
+                            <h3><a href="#!">RAILWAY</a></h3>
+                            @* <div class="post-date">June 15, 2017</div> *@
+                            <p>Indian Railways is the largest rail network in Asia and the world's second largest. The First train on Indian soil ran between Bombay and Thane on the 16th of April 1853. Indian Railways is one of the world's largest employers with over 1.4 million people.Indian Railways Head Quarter is in New Delhi.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="news-img-holder">
+                            <a href="#!"><img src="~/Fronted/img/news/English-for-Bank-Exams.jpg" class="img-responsive" alt="news"></a>
+                        </div>
+                        <div class="news-content-holder">
+                            <h3><a href="#!">BANKING</a></h3>
+                            @* <div class="post-date">June 15, 2017</div> *@
+                            <p>Our Bank PO classroom course prepares students in areas like Quantitative Aptitude (including Data Interpretation & Data Sufficiency), Reasoning & Logical Ability (including Non-Verbal Reasoning), English Language & Grammar, General Awareness (including socio-economic & financial awareness), Marketing Aptitude and Computer Knowledge.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="news-img-holder">
+                            <a href="#!"><img src="~/Fronted/img/news/computer.jpeg" class="img-responsive" alt="news"></a>
+                        </div>
+                        <div class="news-content-holder">
+                            <h3><a href="#!">COMPUTER COURSE</a></h3>
+                            @* <div class="post-date">June 15, 2017</div> *@
+                            <p>The Estimates committee in the Parliament recommended the setting up of a Service Selection Commission in its 47th report (1967–68) for conducting examinations to recruit lower categories of posts. Later, in the Department of Personnel and Administrative Reforms, on 4 November 1975 Government of India constituted a commission called Subordinate Service Commission. On 26 September 1977, Subordinate Services Commission was renamed as Staff Selection Commission.</p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="news-btn-holder">
+                    <a href="/Home/Courses" class="view-all-accent-btn">View All</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="video-area overlay-video bg-common-style" style="background-image: url('../../Fronted/img/banner/1.jpg');">
+    <div class="container">
+        <div class="video-content">
+            <h2 class="video-title">Alliance Coaching Institute has been set up  with the objective of preparing school children for tough competitive examinations in future. Evidently, our focus is on "<span style="color:#198754;">building concepts and shaping minds</span>"</h2>
+            @* <p class="video-sub-title">
+            Vmply dummy text of the printing and typesetting industryorem
+            <br>Ipsum industry's standard dum an unknowramble.
+            </p>*@
+            <a href="/Home/Contact" class="ghost-btn-big">Get Admission Now</a>
+        </div>
+    </div>
+</div>
+
+<!-- Students Say Area Start Here -->
+<div class="students-say-area">
+    <h2 class="title-default-center">What Our Students Say</h2>
+    <div class="container">
+        <div class="rc-carousel" data-loop="true" data-items="2" data-margin="30" data-autoplay="false" data-autoplay-timeout="10000" data-smart-speed="2000" data-dots="true" data-nav="false" data-nav-speed="false" data-r-x-small="1" data-r-x-small-nav="false"
+             data-r-x-small-dots="true" data-r-x-medium="2" data-r-x-medium-nav="false" data-r-x-medium-dots="true" data-r-small="2" data-r-small-nav="false" data-r-small-dots="true" data-r-medium="2" data-r-medium-nav="false" data-r-medium-dots="true"
+             data-r-large="2" data-r-large-nav="false" data-r-large-dots="true">
+            <div class="single-item">
+                <div class="single-item-wrapper">
+                    <div class="profile-img-wrapper">
+                        <a href="#!" class="profile-img"><img class="profile-img-responsive img-circle" src="~/Fronted/img/students/1.jpg" alt="Testimonial"></a>
+                    </div>
+                    <div class="tlp-tm-content-wrapper">
+                        <h3 class="item-title"><a href="#">Rosy Janner</a></h3>
+                        <span class="item-designation">UI Designer</span>
+                        <ul class="rating-wrapper">
+                        </ul>
+                        <div class="item-content">Pellentesque tellus arcu, laoreet volutpavenenatis molestPellentesque commodo lorem lectus pretium vehicula.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="single-item">
+                <div class="single-item-wrapper">
+                    <div class="profile-img-wrapper">
+                        <a href="#!" class="profile-img"><img class="profile-img-responsive img-circle" src="~/Fronted/img/students/2.jpg" alt="Testimonial"></a>
+                    </div>
+                    <div class="tlp-tm-content-wrapper">
+                        <h3 class="item-title"><a href="#!">Dainel Dina</a></h3>
+                        <span class="item-designation">Manager</span>
+                        <ul class="rating-wrapper">
+                        </ul>
+                        <div class="item-content">Pellentesque tellus arcu, laoreet volutpavenenatis molestPellentesque commodo lorem lectus pretium vehicula.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="single-item">
+                <div class="single-item-wrapper">
+                    <div class="profile-img-wrapper">
+                        <a href="#!" class="profile-img"><img class="profile-img-responsive img-circle" src="~/Fronted/img/students/1.jpg" alt="Testimonial"></a>
+                    </div>
+                    <div class="tlp-tm-content-wrapper">
+                        <h3 class="item-title"><a href="#!">Rosy Janner</a></h3>
+                        <span class="item-designation">UI Designer</span>
+                        <ul class="rating-wrapper">
+                        </ul>
+                        <div class="item-content">Pellentesque tellus arcu, laoreet volutpavenenatis molestPellentesque commodo lorem lectus pretium vehicula.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="single-item">
+                <div class="single-item-wrapper">
+                    <div class="profile-img-wrapper">
+                        <a href="#!" class="profile-img"><img class="profile-img-responsive img-circle" src="~/Fronted/img/students/2.jpg" alt="Testimonial"></a>
+                    </div>
+                    <div class="tlp-tm-content-wrapper">
+                        <h3 class="item-title"><a href="#!">Dainel Dina</a></h3>
+                        <span class="item-designation">Manager</span>
+                        <ul class="rating-wrapper">
+                        </ul>
+                        <div class="item-content">Pellentesque tellus arcu, laoreet volutpavenenatis molestPellentesque commodo lorem lectus pretium vehicula.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="single-item">
+                <div class="single-item-wrapper">
+                    <div class="profile-img-wrapper">
+                        <a href="#!" class="profile-img"><img class="profile-img-responsive img-circle" src="~/Fronted/img/students/1.jpg" alt="Testimonial"></a>
+                    </div>
+                    <div class="tlp-tm-content-wrapper">
+                        <h3 class="item-title"><a href="#!">Rosy Janner</a></h3>
+                        <span class="item-designation">UI Designer</span>
+                        <ul class="rating-wrapper">
+                        </ul>
+                        <div class="item-content">Pellentesque tellus arcu, laoreet volutpavenenatis molestPellentesque commodo lorem lectus pretium vehicula.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="single-item">
+                <div class="single-item-wrapper">
+                    <div class="profile-img-wrapper">
+                        <a href="#!" class="profile-img"><img class="profile-img-responsive img-circle" src="~/Fronted/img/students/2.jpg" alt="Testimonial"></a>
+                    </div>
+                    <div class="tlp-tm-content-wrapper">
+                        <h3 class="item-title"><a href="#!">Dainel Dina</a></h3>
+                        <span class="item-designation">Manager</span>
+                        <ul class="rating-wrapper">
+                        </ul>
+                        <div class="item-content">Pellentesque tellus arcu, laoreet volutpavenenatis molestPellentesque commodo lorem lectus pretium vehicula.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="google-map-area">
+            <!-- Google Map iframe Integration -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.2657242557466!2d85.83958047349712!3d20.247811514146075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19a738c495c67b%3A0x2df9b3f81d9d8c2b!2sAlliance%20Technologies!5e0!3m2!1sen!2sin!4v1718626674255!5m2!1sen!2sin" style="border:0; width:100%; height:395px;" allowfullscreen=""></iframe>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+
+<div id="loader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); color: white; text-align: center; padding-top: 50vh; z-index: 9999;">Loading...</div>
+
+<!-- Students Say Area End Here -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+<script>
+    document.getElementById('registration-form').addEventListener('submit', function (event) {
+        var phoneInput = document.getElementById('phone-number');
+        var phone = phoneInput.value;
+        if (phone.length !== 10 || !phone.match(/^\d{10}$/)) {
+            alert("Please enter a valid 10-digit phone number.");
+            event.preventDefault();
+        }
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#registration-form').on('submit', function (event) {
+            event.preventDefault();
+
+            // Show loader
+            $('#loader').show();
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function (response) {
+                    // Hide loader
+                    $('#loader').hide();
+
+                    alert("Submitted successfully.");
+                    $('#registration-form').trigger("reset");
+                },
+                error: function (xhr, status, error) {
+                    // Hide loader
+                    $('#loader').hide();
+
+                    alert("An error occurred. Please try again later.");
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#popupModal').modal('show');
+    });
+
+    // Optional: JavaScript to close the modal programmatically
+    function closePopupModal() {
+        $('#popupModal').modal('hide');
+    }
+</script>
+
+
+
+ @* <script>
+     $(document).ready(function () {
+         loadAdvertise();
+
+         function loadAdvertise() {
+             $.ajax({
+                 url: '@Url.Action("GetAdvertiseList", "Advertise")', // Update with your API URL
+                 type: "GET",
+                 success: function (response) {
+                     if (response.data && response.data.length > 0) {
+                         var advertise = response.data[0]; // Assuming you want to show the first advertisement
+                         var advertiseHtml = '';
+
+                         advertiseHtml += '<img src="' + '@Url.Content("~/Fronted/img")' +advertise.AdvertiseImage'"alt="  advertise.AdvertiseName + '">';
+                         advertiseHtml += '<div class="popup-content">';
+                         advertiseHtml += '<h1 style="color: red;">' + advertise.AdvertiseHeading + '</h1>';
+                         advertiseHtml += '<h2 style="font-size: 2.5rem;">' + advertise.AdvertiseText + '</h2>';
+                         advertiseHtml += '<p>' + advertise.AdvertiseBelowText + '</p>';
+                         advertiseHtml += '<a href="#" style="background-color: red;">GRAB NOW</a>';
+                         advertiseHtml += '</div>';
+
+                         $('#advertisePopup').html(advertiseHtml);
+                         $('#popupModal').modal('show'); // Show the modal
+                     } else {
+                         console.error('No advertisements found.');
+                     }
+                 },
+                 error: function (error) {
+                     console.error('Error loading advertisements:', error);
+                 }
+             });
+         }
+     });
+ </script> *@
+
+
+
+        @* <script>
+        $(document).ready(function () {
+        $('#registration-form').on('submit', function (event) {
+        event.preventDefault();
+
+        $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        success: function (response) {
+
+        alert("Submitted successfully.");
+        $('#registration-form').trigger("reset");
+        },
+        error: function (xhr, status, error) {
+        alert("An error occurred. Please try again later.");
+        }
+        });
+        });
+        });
+        </script> *@
+

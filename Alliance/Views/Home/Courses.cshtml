@@ -1,0 +1,225 @@
+﻿@using Microsoft.Extensions.Configuration;
+@using Microsoft.AspNetCore.Http
+@inject IConfiguration Configuration;
+
+@{
+    ViewData["Title"] = "Courses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string apiUrl = Configuration.GetValue<string>("WebAPIBaseUrl");
+    string ImageUrl = Configuration.GetValue<string>("WebAPIImageUrl");
+}
+<link rel="stylesheet" href="~/Fronted/vendor/noUiSlider/nouislider.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    .share-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 5px 5px;
+        background-color: #198754;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        margin-left: 100px;
+    }
+
+        .share-button i {
+            /*margin-right: 10px;*/
+            color: white;
+        }
+</style>
+<style>
+    .courses-box1 .single-item-wrapper .courses-img-wrapper:before {
+        display: none;
+        z-index: 1;
+    }
+
+    .owl-controls .owl-next, .owl-controls .owl-prev {
+        background: #198754 !important;
+    }
+
+    .title-bar-high:before, .default-big-btn {
+        background: #198754;
+    }
+
+    .courses-box1 .single-item-wrapper .courses-content-wrapper .item-title a {
+        color: #198754;
+    }
+
+    .courses-box1 .single-item-wrapper .courses-img-wrapper iframe {
+        width: 100%;
+        height: 239px;
+    }
+</style>
+<!-- Inner Page Banner Area Start Here -->
+<div class="inner-page-banner-area" style="background-image: url('../../Fronted/img/banner/5.jpg');">
+    <div class="container">
+        <div class="pagination-area">
+            <h1>Courses</h1>
+            <ul>
+                <li><a href="#">Home</a> -</li>
+                <li>Courses</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Courses 1 Area Start Here -->
+<div class="courses1-area" id="course">
+    <div class="container">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <h2 class="title-default-left title-bar-high" id="pageTitle">Courses</h2>
+        </div>
+    </div>
+
+    <div id="shadow-carousel" class="container">
+        <div class="rc-carousel" data-loop="true" data-items="4" data-margin="20" data-autoplay="false" data-autoplay-timeout="10000" data-smart-speed="2000" data-dots="false" data-nav="true" data-nav-speed="false" data-r-x-small="1" data-r-x-small-nav="true"
+             data-r-x-small-dots="false" data-r-x-medium="2" data-r-x-medium-nav="true" data-r-x-medium-dots="false" data-r-small="2" data-r-small-nav="true" data-r-small-dots="false" data-r-medium="3" data-r-medium-nav="true" data-r-medium-dots="false"
+             data-r-large="4" data-r-large-nav="true" data-r-large-dots="false">
+            <div class="courses-box1" id="abc">
+                <div class="single-item-wrapper">
+                    <div class="courses-img-wrapper hvr-bounce-to-bottom">
+                        <img class="img-responsive" src="~/Fronted/img/course/1.jpg" alt="courses">
+                    </div>
+                    <a href="/Home/Subject">
+                        <div class="courses-content-wrapper">
+                        <h3 class="item-title"></h3>
+                        <p class="item-content">Rmply dummy text printing setting industry it’s free demo.</p>
+                        <ul class="courses-info">
+                            <li>
+                                1 Year
+                                <br><span> Course</span>
+                            </li>
+                            <li>
+                                40
+                                <br><span> Classes</span>
+                            </li>
+                            <li>
+                                10 am - 11 am
+                                <br><span> Classes</span>
+                            </li>
+                        </ul>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div class="container-fluid" style="margin-top: -100px;">
+    <div class="row">
+        <div class="google-map-area">
+            <!-- Google Map iframe Integration -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.2657242557466!2d85.83958047349712!3d20.247811514146075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19a738c495c67b%3A0x2df9b3f81d9d8c2b!2sAppman%20Technologies!5e0!3m2!1sen!2sin!4v1718626674255!5m2!1sen!2sin" style="border:0; width:100%; height:395px;" allowfullscreen=""></iframe>
+        </div>
+    </div>
+</div>
+<!-- Courses 1 Area End Here -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        getCourse();
+
+        function getCourse() {
+            $.ajax({
+                url: "@apiUrl/api/Course/GetCourseList",
+                type: "GET",
+                success: function (data) {
+                    let courses = data.data;
+                    let coursePromises = courses.map(course => {
+                        return new Promise((resolve) => {
+                            getSubCourses(course).then(subCoursesHtml => {
+                                let courseHtml = '<div class="container"><div class="col-xl-12 col-lg-12 col-md-12 col-sm-12"><h2 class="title-default-left title-bar-high">' + course.courseName + '</h2></div>' + subCoursesHtml + '</div>';
+                                resolve(courseHtml);
+                            });
+                        });
+                    });
+
+                    Promise.all(coursePromises).then(coursesHtml => {
+                        $('#course').html(coursesHtml.join(''));
+                        initializeCarousel();
+                    });
+                },
+                error: function (error) {
+                    console.error('Error loading courses:', error);
+                }
+            });
+        }
+
+        function getSubCourses(course) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: "@apiUrl/api/SubCourse/GetSingleSubCourselistbycourseid/" + course.courseId,
+                    type: "GET",
+                    success: function (data) {
+                        let x = '<div class="rc-carousel" data-loop="true" data-items="4" data-margin="20" data-autoplay="false" data-autoplay-timeout="10000" data-smart-speed="2000" data-dots="false" data-nav="true" data-nav-speed="false" ...>';
+                        data.data.forEach(subCourse => {
+                            let videoUrl = "https://www.youtube.com/embed/" + subCourse.video; 
+                            x += '<div class="item"><div class="courses-box1"><div class="single-item-wrapper"><div class="courses-img-wrapper"><iframe class="img-responsive" src="' + videoUrl + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><a href="/Home/Subject"><div class="courses-content-wrapper"><h3 class="item-title">' + subCourse.subCourseName + '<div class="share-button"><i class="fas fa-share"></i></div></h3><p class="item-content"style="text-align: justify;">' + subCourse.subCourseDetails + '</p > @*<ul class="courses-info"><li>' + subCourse.subCourseDuration + '<br><span> Course</span></li><li>40<br><span> Classes</span></li><li>10 am - 11 am<br><span>Classes</span></li><li>' + subCourse.subCoursePrice + '<br><span> Price</span></li></ul>*@</div></a > </div></div > </div>';
+                        });
+
+                        x += '</div>';
+                        resolve(x);
+                    },
+                    error: function (error) {
+                        console.error('Error loading subcourses:', error);
+                        reject(error);
+                    }
+                });
+            });
+        }
+
+        function initializeCarousel() {
+            $(".rc-carousel").owlCarousel({
+                loop: true,
+                margin: 20,
+                nav: true,
+                navText: [
+                    '<i class="fa fa-arrow-left" aria-hidden="true"></i>',
+                    '<i class="fa fa-arrow-right" aria-hidden="true"></i>'
+                ],
+                autoplay: true,
+                autoplayTimeout: 5000,
+                autoplaySpeed: 1000,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: true
+                    },
+                    600: {
+                        items: 3,
+                        nav: false
+                    },
+                    1000: {
+                        items: 4,
+                        nav: true,
+                        loop: false
+                    }
+                }
+            });
+        }
+
+        $(document).on('click', '.share-button', function (e) {
+            e.preventDefault();
+            const url = window.location.href;
+            const tempInput = document.createElement('input');
+            document.body.appendChild(tempInput);
+            tempInput.value = url;
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Url Copied');
+        });
+    });
+</script>
+
+
+
+

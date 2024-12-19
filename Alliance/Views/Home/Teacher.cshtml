@@ -1,0 +1,399 @@
+﻿@using Microsoft.Extensions.Configuration;
+@using Microsoft.AspNetCore.Http
+@inject IConfiguration Configuration;
+
+@{
+    ViewData["Title"] = "Teacher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string apiUrl = Configuration.GetValue<string>("WebAPIBaseUrl");
+    string ImageUrl = Configuration.GetValue<string>("WebAPIImageUrl");
+}
+
+<link rel="stylesheet" href="~/Fronted/vendor/noUiSlider/nouislider.min.css">
+<link rel="stylesheet" href="styles.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f8f8;
+    }
+
+    .container {
+        display: flex;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .sidebar {
+        width: 25%;
+        background-color: #ffffff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile img {
+        width: 100%;
+        height: auto;
+        border-radius: 50%;
+    }
+
+    .profile h2 {
+        margin-top: 20px;
+        margin-bottom: 5px;
+        font-size: 24px;
+    }
+
+    .profile h4 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 18px;
+        color: #666666;
+    }
+
+    .social-links {
+        margin-bottom: 15px;
+    }
+
+        .social-links a {
+            margin-right: 10px;
+            display: inline-block;
+        }
+
+        .social-links img {
+            width: 30px;
+            height: 30px;
+        }
+
+    .profile p {
+        margin-top: 15px;
+        color: #666666;
+    }
+
+    .main-content {
+        width: 75%;
+        padding: 20px;
+    }
+
+    .tabs {
+        display: flex;
+        justify-content: flex-start;
+        background-color: #333333;
+        padding: 10px 0;
+    }
+
+        .tabs a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+            .tabs a.active {
+                background-color: #0056b3;
+            }
+
+    .content {
+        margin-top: 20px;
+    }
+
+        .content section {
+            margin-bottom: 20px;
+        }
+
+        .content h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .content p {
+            color: #666666;
+            line-height: 1.6;
+        }
+
+    #teachers-single {
+        margin-top: 125px;
+    }
+
+    .social {
+        margin-bottom: 15px;
+    }
+
+        .social ul {
+            padding: 0;
+            list-style: none;
+            display: flex;
+            gap: 10px;
+        }
+
+            .social ul li {
+                display: inline;
+            }
+
+                .social ul li a {
+                    font-size: 30px;
+                    color: #000;
+                    text-decoration: none;
+                }
+
+</style>
+
+<style>
+    .modal-content {
+        width: 30%;
+        margin-left: 400px;
+    }
+
+
+    .video-buttons {
+        display: flex;
+        gap: 400px;
+    }
+
+    .video-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 5px;
+    }
+
+        .video-button:hover {
+            background-color: #0056b3;
+        }
+
+    .video-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .video-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .video-item iframe {
+            width: 100%; /* Full width of the container */
+            height: auto;
+        }
+
+    .modal-dialog {
+        max-width: 90%; /* Adjust as needed */
+    }
+
+
+</style>
+
+<div class="inner-page-banner-area" style="background-image: url('../../Fronted/img/banner/5.jpg');">
+    <div class="container">
+        <div class="pagination-area">
+            <h1>Teachers</h1>
+            <ul>
+                <li><a href="#">Home</a> -i</li>
+                <li>Teachers</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<section id="teachers-single" class="pt-70 pb-120 gray-bg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-8">
+                <div class="teachers-left mt-50">
+                    <div class="hero">
+                        <img src="~/teachersinglecss/images/teachers/t-1.jpg" alt="Teachers">
+                    </div>
+                    <div class="name">
+                        <h6>Mark Alen</h6>
+                        <span>Vice Chancellor</span>
+                    </div>
+                    <div class="social">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook-square"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter-square"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus-square"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="description">
+                        <p>Gravida nibh vel velit auctor aliquetn sollicitudirem quibibendum auci elit cons equat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate..</p>
+                    </div>
+                </div> <!-- teachers left -->
+            </div>
+            <div class="col-lg-8">
+                <div class="teachers-right mt-50">
+                    <ul class="nav nav-justified" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="active show" id="dashboard-tab" data-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="true">Dashboard</a>
+                        </li>
+                        @* <li class="nav-item">
+                        <a id="courses-tab" data-toggle="tab" href="#courses" role="tab" aria-controls="courses" aria-selected="false" class="">Courses</a>
+                        </li>*@
+                        <li class="nav-item">
+                            <a id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false" class="">Courses</a>
+                        </li>
+                    </ul> <!-- nav -->
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade active show" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                            <div class="dashboard-cont">
+                                <div class="single-dashboard pt-40">
+                                    <h5>About</h5>
+                                    <p>Lorem ipsum gravida nibh vel velit auctor aliquetn sollicitudirem quibibendum auci elit cons equat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus .</p>
+                                </div> <!-- single dashboard -->
+                                <div class="single-dashboard pt-40">
+                                    <h5>Acchivments</h5>
+                                    <p>Lorem ipsum gravida nibh vel velit auctor aliquetn sollicitudirem quibibendum auci elit cons equat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus .</p>
+                                </div> <!-- single dashboard -->
+                                <div class="single-dashboard pt-40">
+                                    <h5>My Objective</h5>
+                                    <p>Lorem ipsum gravida nibh vel velit auctor aliquetn sollicitudirem quibibendum auci elit cons equat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus .</p>
+                                </div> <!-- single dashboard -->
+                            </div> <!-- dashboard cont -->
+                        </div>
+
+                        <!-- Main Tab Pane -->
+                        <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                            <div class="reviews-cont">
+                                <!-- Table for Video Buttons -->
+                                <table class="video-buttons-table" style="width: 100%; background-color: #d3d3d3; padding: 20px; text-align: center;">
+                                    <tr>
+                                        <td>
+                                            <!-- Fixed Video Button -->
+                                            <button class="video-button" id="fixedVideoButton">
+                                                Fixed Video
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <!-- Demo Video Button -->
+                                            <button class="video-button" id="demoVideoButton">
+                                                Demo Video
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <!-- Modal for Fixed Videos -->
+                                <div class="modal fade" id="fixedVideosModal" tabindex="-1" aria-labelledby="fixedVideosModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="fixedVideosModalLabel">Fixed Videos</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="video-list">
+                                                    <!-- Add more Fixed Videos here -->
+                                                    <div class="video-item">
+                                                        <h6>Chapter 1</h6>
+                                                        <iframe width="500" height="300" src="https://www.youtube.com/embed/your-fixed-video-id-1" frameborder="0" allowfullscreen></iframe>
+                                                    </div>
+                                                    <div class="video-item">
+                                                        <h6>Chapter 2</h6>
+                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/your-fixed-video-id-2" frameborder="0" allowfullscreen></iframe>
+                                                    </div>
+                                                    <div class="video-item">
+                                                        <h6>Chapter 3</h6>
+                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/your-demo-video-id-1" frameborder="0" allowfullscreen></iframe>
+                                                    </div>
+                                                    <div class="video-item">
+                                                        <h6>Chapter 4</h6>
+                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/your-demo-video-id-2" frameborder="0" allowfullscreen></iframe>
+                                                    </div>
+                                                    <div class="video-item">
+                                                        <h6>Chapter 5</h6>
+                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/your-demo-video-id-1" frameborder="0" allowfullscreen></iframe>
+                                                    </div>
+                                                    <div class="video-item">
+                                                        <h6>Chapter 6</h6>
+                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/your-demo-video-id-2" frameborder="0" allowfullscreen></iframe>
+                                                    </div>
+                                                    <!-- Add more Fixed Videos as needed -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal for Demo Videos -->
+                                <div class="modal fade" id="demoVideosModal" tabindex="-1" aria-labelledby="demoVideosModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="demoVideosModalLabel">Demo Videos</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="video-list">
+                                                    <!-- Add more Demo Videos here -->
+                                                    <div class="video-item">
+                                                        <h6>Demo Video 1</h6>
+                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/your-demo-video-id-1" frameborder="0" allowfullscreen></iframe>
+                                                    </div>
+                                                    <div class="video-item">
+                                                        <h6>Demo Video 2</h6>
+                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/your-demo-video-id-2" frameborder="0" allowfullscreen></iframe>
+                                                    </div>
+                                                    <!-- Add more Demo Videos as needed -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- reviews cont -->
+                        </div>
+                    </div> <!-- tab content -->
+                </div> <!-- teachers right -->
+            </div>
+        </div> <!-- row -->
+    </div> <!-- container -->
+</section>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#myTab a').on('click', function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+    });
+</script>
+
+<script>
+    document.getElementById('fixedVideoButton').addEventListener('click', function () {
+        var fixedModal = new bootstrap.Modal(document.getElementById('fixedVideosModal'));
+        var demoModal = new bootstrap.Modal(document.getElementById('demoVideosModal'));
+
+        // Show Fixed Videos modal and hide Demo Videos modal
+        fixedModal.show();
+        demoModal.hide();
+    });
+
+    document.getElementById('demoVideoButton').addEventListener('click', function () {
+        var demoModal = new bootstrap.Modal(document.getElementById('demoVideosModal'));
+        var fixedModal = new bootstrap.Modal(document.getElementById('fixedVideosModal'));
+
+        // Show Demo Videos modal and hide Fixed Videos modal
+        demoModal.show();
+        fixedModal.hide();
+    });
+</script>
+
+
+
+
+
+
+
+
+
