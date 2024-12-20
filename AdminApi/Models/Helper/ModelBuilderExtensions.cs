@@ -1,5 +1,4 @@
 using System;
-using AdminApi.Models.App;
 using AdminApi.Models.Menu;
 using AdminApi.Models.User;
 using Microsoft.EntityFrameworkCore;

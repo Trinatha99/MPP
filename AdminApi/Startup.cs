@@ -26,7 +26,6 @@ using CorePush.Google;
 using AdminApi.Models.Notification;
 using Newtonsoft.Json;
 using Newtonsoft;
-using AdminApi.Models.App;
 namespace AdminApi
 {
     public class Startup

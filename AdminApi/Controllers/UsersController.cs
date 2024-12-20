@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AdminApi.Models;
 using AdminApi.Models.Helper;
@@ -19,9 +17,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using AdminApi.Utils;
-using System.IO;
-using AdminApi.DTO.App;
 
 namespace AdminApi.Controllers
 {
@@ -34,6 +29,7 @@ namespace AdminApi.Controllers
         private readonly ISqlRepository<Users> _userRepo;
         private readonly ISqlRepository<UserRole> _userRoleRepo;
         private readonly ISqlRepository<LogHistory> _logHistoryRepo;
+
 
         public UsersController(IConfiguration config,
                                 AppDbContext context,
@@ -48,10 +44,10 @@ namespace AdminApi.Controllers
             _logHistoryRepo = logHistoryRepo;
         }
 
+
         ///<summary>
         ///Get Log in Detail
         ///</summary>
-
         [AllowAnonymous]
         [HttpGet("{username}/{password}")]
         public ActionResult GetLoginInfo(string username, string password)
@@ -59,7 +55,8 @@ namespace AdminApi.Controllers
             try
             {
                 var user = (from u in _context.Users
-                            join r in _context.UserRole on u.UserRoleId equals r.UserRoleId
+                            join r in _context.UserRole on u.UserRoleId
+                            equals r.UserRoleId
                             where u.IsActive.Equals(true) && u.UserName.Equals(username) && u.Password.Equals(password)
                             select new { u.UserId, r.UserRoleId, r.RoleName, u.FullName, u.Mobile, u.Email, u.ImagePath }).FirstOrDefault();
                 if (user != null)
@@ -75,88 +72,6 @@ namespace AdminApi.Controllers
                 return Accepted(new Confirmation { Status = "error", ResponseMsg = ex.Message });
             }
         }
-
-        ///<summary>
-        ///Register Mobile OTP
-        ///</summary>
-        [AllowAnonymous]
-        [HttpGet("{MobileNo}")]
-        public ActionResult SendOtp(string MobileNo)
-        {
-            try
-            {
-                var user = (from u in _context.Users
-                            join r in _context.UserRole on u.UserRoleId
-                            equals r.UserRoleId
-                            where u.IsActive.Equals(true) && u.UserName.Equals(MobileNo)
-                            select new { u.UserId, r.UserRoleId, r.RoleName, u.FullName, u.Mobile, u.Email, u.ImagePath, u.Password }).FirstOrDefault();
-                UserOtpDTO userOtpDTO = new UserOtpDTO();
-
-                string otp;
-                if (MobileNo == "9777316577")
-                {
-                    otp = "1234";
-                }
-                else
-                {
-                    otp = Utils.Utils.GenerateRandomNo().ToString();
-                }
-
-                if (user != null)
-                {
-                    var objUser = _context.Users.SingleOrDefault(opt => opt.UserId == user.UserId);
-                    objUser.Password = otp;
-                    objUser.LastPasswordChangeDate = DateTime.Now;
-                    objUser.PasswordChangedBy = user.UserId;
-                    objUser.IsPasswordChange = true;
-                    _context.SaveChanges();
-
-                }
-                else
-                {
-                    Users model = new Users();
-                    model.UserName = MobileNo;
-                    model.UserRoleId = 2;
-                    model.Password = otp;
-                    model.DateAdded = DateTime.Now;
-                    model.IsActive = true;
-                    model.FullName = "";
-                    model.Mobile = MobileNo;
-
-                    model.IsPasswordChange = false;
-                    var obj = _userRepo.Insert(model);
-
-                    userOtpDTO.isUserExists = false;
-                }
-                string Msg = _config["SMS:login_message"];
-                string template_id = _config["SMS:login_template_id"];
-                string strUrl = _config["SMS:url"];
-                Msg = Regex.Replace(Msg, "{#var#}", otp);
-                strUrl = Regex.Replace(strUrl, "{#mob}", MobileNo);
-                strUrl = Regex.Replace(strUrl, "{#message}", Msg);
-                strUrl = Regex.Replace(strUrl, "{#template_id}", template_id);
-                ServicePointManager.Expect100Continue = true;
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                System.Net.WebRequest request = System.Net.WebRequest.Create(strUrl);
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                Stream s = (Stream)response.GetResponseStream();
-                StreamReader readStream = new StreamReader(s);
-                string dataString = readStream.ReadToEnd();
-                s.Close();
-                readStream.Close();
-
-                response.Close();
-
-                userOtpDTO.otp = otp;
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return Accepted(new Confirmation { Status = "error", ResponseMsg = ex.Message });
-            }
-        }
-
 
         ///<summary>
         ///Create Log History after login
@@ -332,7 +247,7 @@ namespace AdminApi.Controllers
             {
                 var list = (from r in _context.UserRole
                             join m in _context.MenuGroup on
-                            r.MenuGroupId equals m.MenuGroupID
+                r.MenuGroupId equals m.MenuGroupID
                             select new { r.UserRoleId, r.RoleName, r.RoleDesc, m.MenuGroupName });
 
                 var roleInfoList = list.Select(s => new RoleInfo { UserRoleId = s.UserRoleId, RoleName = s.RoleName, RoleDesc = s.RoleDesc, MenuGroupName = s.MenuGroupName });
@@ -449,35 +364,13 @@ namespace AdminApi.Controllers
                 var list = (from u in _context.Users
                             join r in _context.UserRole on
                             u.UserRoleId equals r.UserRoleId
-                            select new { u.UserId, u.UserRoleId, u.FullName, r.RoleName, u.Mobile, u.Email, u.DateOfBirth, u.UserName });
+                            select new { u.UserId, u.UserRoleId, u.FullName, r.RoleName, u.Mobile, u.Email, u.DateOfBirth, u.UserName, u.ImagePath });
 
                 var userInfoList = list.Select(s => new UserInfo
-                { UserId = s.UserId, UserRoleId = s.UserRoleId, RoleName = s.RoleName, FullName = s.FullName, Mobile = s.Mobile, Email = s.Email, DateOfBirth = s.DateOfBirth, UserName = s.UserName });
+                { UserId = s.UserId, UserRoleId = s.UserRoleId, RoleName = s.RoleName, FullName = s.FullName, Mobile = s.Mobile, Email = s.Email, DateOfBirth = s.DateOfBirth, UserName = s.UserName, ImagePath = s.ImagePath });
 
                 int totalRecords = userInfoList.Count();
                 return Ok(new { data = userInfoList, recordsTotal = totalRecords, recordsFiltered = totalRecords });
-            }
-            catch (Exception ex)
-            {
-                return Accepted(new Confirmation { Status = "error", ResponseMsg = ex.Message });
-            }
-        }
-
-
-        [HttpGet]
-        public ActionResult GetFranchiseUserList()
-        {
-            try
-            {
-                var list = (from u in _context.Users
-                            join r in _context.UserRole on
-                            u.UserRoleId equals r.UserRoleId
-                            select new { u.UserId, u.UserName, u.IsActive, u.UserRoleId }).Where(x => x.UserRoleId == 3);
-
-
-
-                int totalRecords = list.Count();
-                return Ok(new { data = list, recordsTotal = totalRecords, recordsFiltered = totalRecords });
             }
             catch (Exception ex)
             {
@@ -574,6 +467,7 @@ namespace AdminApi.Controllers
                 objUser.ImagePath = model.ImagePath;
                 objUser.LastUpdatedBy = model.LastUpdatedBy;
                 objUser.LastUpdatedDate = DateTime.Now;
+
                 _context.SaveChanges();
                 return Ok(objUser);
             }
@@ -646,7 +540,7 @@ namespace AdminApi.Controllers
                 int inActiveUser = _context.Users.Where(q => q.IsActive == false).Count();
                 int adminUser = (from u in _context.Users
                                  join ur in _context.UserRole
-       on u.UserRoleId equals ur.UserRoleId
+                              on u.UserRoleId equals ur.UserRoleId
                                  where ur.RoleName == "Admin"
                                  select new { ur.RoleName }).Count();
 
@@ -659,31 +553,6 @@ namespace AdminApi.Controllers
             }
         }
 
-        [HttpGet("{UserId}")]
-        public ActionResult GetUserDetails(int UserId)
-        {
-            var single_User = _userRepo.SelectById(UserId);
-            return Ok(single_User);
-        }
-
-        [HttpPost]
-        public ActionResult UpdateUserDetails(UserUpdateDTO userUpdateDTO)
-        {
-            try
-            {
-
-                var objUser = _context.Users.SingleOrDefault(opt => opt.UserId == userUpdateDTO.UserId);
-                objUser.FullName = userUpdateDTO.Name;
-                objUser.Email = userUpdateDTO.EmialId;
-                objUser.ImagePath = userUpdateDTO.Photo;
-                _context.SaveChanges();
-                return Ok(objUser);
-            }
-            catch (Exception ex)
-            {
-                return Accepted(new Confirmation { Status = "error", ResponseMsg = ex.Message });
-            }
-        }
 
         string GenerateJwtToken(UserInfo userInfo)
         {

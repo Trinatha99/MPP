@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="DTO\App\" />
+    <Folder Include="Models\App\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
 
